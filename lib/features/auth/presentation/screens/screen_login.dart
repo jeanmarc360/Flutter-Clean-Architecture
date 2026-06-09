@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../controller/auth_controller.dart';
 
-class LoginPage extends ConsumerWidget {
-  const LoginPage({super.key});
+class ScreenLogin extends ConsumerWidget {
+  const ScreenLogin({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -15,8 +15,8 @@ class LoginPage extends ConsumerWidget {
       body: Center(
         child: state.isLoading
             ? const CircularProgressIndicator()
-            : state.user != null
-                ? Text('Welcome ${state.user!.name}')
+            : state.authToken != null
+                ? Text('Access token: ${state.authToken!.accessToken}')
                 : state.error != null
                     ? Text(state.error!)
                     : ElevatedButton(

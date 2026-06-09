@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_provider/features/auth/presentation/pages/login_page.dart';
+import 'package:flutter_provider/core/local/hive_service.dart';
+import 'package:flutter_provider/features/auth/presentation/screens/screen_login.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await HiveService.init();
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -13,7 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(scaffoldBackgroundColor: Colors.white),
-      home: const LoginPage(),
+      home: const ScreenLogin(),
     );
   }
 }

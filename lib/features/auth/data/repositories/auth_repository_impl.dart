@@ -1,10 +1,11 @@
-import 'package:flutter_provider/core/local/local_datasource.dart';
+import 'package:flutter_provider/core/error/result.dart';
+import 'package:flutter_provider/core/network/safe_api_call.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../domain/entities/user.dart';
+import '../../domain/entities/auth_token.dart';
 import '../../domain/repositories/auth_repository.dart';
+import '../datasources/auth_local_datasource.dart';
 import '../datasources/auth_remote_datasource.dart';
-import '../mappers/user_mapper.dart';
 
 part 'auth_repository_impl.g.dart';
 
@@ -12,20 +13,21 @@ part 'auth_repository_impl.g.dart';
 AuthRepository authRepository(Ref ref) {
   return AuthRepositoryImpl(
     ref.watch(authRemoteDataSourceProvider),
-    ref.watch(localDataSourceProvider),
+    ref.watch(authLocalDataSourceProvider),
   );
 }
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remote;
-  final LocalDataSource local;
+  final AuthLocalDataSource local;
 
   AuthRepositoryImpl(this.remote, this.local);
 
   @override
-  Future<User> login(String email, String password) async {
-    final model = await remote.login(email, password);
-    await local.saveToken(model.token);
-    return model.toEntity();
-  }
+  Future<Result<AuthToken>> login(String email, String password) =>
+      safeApiCall(() async {
+        final model = await remote.login(email, password);
+        await local.saveToken(model);
+        return model.toEntity();
+      });
 }

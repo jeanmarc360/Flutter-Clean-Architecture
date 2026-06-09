@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../api/auth_api.dart';
-import '../models/user_model.dart';
+import '../models/auth_token_model.dart';
 
 part 'auth_remote_datasource.g.dart';
 
@@ -15,7 +15,7 @@ class AuthRemoteDataSource {
 
   AuthRemoteDataSource(this.api);
 
-  Future<UserModel> login(String email, String password) {
+  Future<AuthTokenModel> login(String email, String password) {
     return api.login({'email': email, 'password': password});
   }
 }

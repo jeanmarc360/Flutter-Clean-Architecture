@@ -12,11 +12,13 @@ class AuthController extends _$AuthController {
 
   Future<void> login(String email, String password) async {
     state = state.copyWith(isLoading: true, error: null);
-    try {
-      final user = await ref.read(loginUseCaseProvider).call(email, password);
-      state = state.copyWith(isLoading: false, user: user);
-    } catch (e) {
-      state = state.copyWith(isLoading: false, error: e.toString());
+
+    final result = await ref.read(loginUseCaseProvider).login(email, password);
+
+    if (result.isSuccess) {
+      state = state.copyWith(isLoading: false, authToken: result.data);
+    } else {
+      state = state.copyWith(isLoading: false, error: result.error?.message);
     }
   }
 

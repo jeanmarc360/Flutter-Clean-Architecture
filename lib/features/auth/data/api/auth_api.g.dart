@@ -20,13 +20,13 @@ class _AuthApi implements AuthApi {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<UserModel> login(Map<String, dynamic> body) async {
+  Future<AuthTokenModel> login(Map<String, dynamic> body) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(body);
-    final _options = _setStreamType<UserModel>(
+    final _options = _setStreamType<AuthTokenModel>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -37,9 +37,9 @@ class _AuthApi implements AuthApi {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late UserModel _value;
+    late AuthTokenModel _value;
     try {
-      _value = UserModel.fromJson(_result.data!);
+      _value = AuthTokenModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
@@ -123,4 +123,4 @@ final class AuthApiProvider
   }
 }
 
-String _$authApiHash() => r'ef5f42290a3d905475d136b0964f80d666cb011f';
+String _$authApiHash() => r'90d0f4408bb8575ce023c5352010009ae41fc0db';

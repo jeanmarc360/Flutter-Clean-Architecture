@@ -1,9 +1,6 @@
-
-import '../entities/user.dart';
+import 'package:flutter_provider/core/error/result.dart';
+import '../entities/auth_token.dart';
 
 abstract class AuthRepository {
-  Future<User> login(
-    String email,
-    String password,
-  );
+  Future<Result<AuthToken>> login(String email, String password);
 }

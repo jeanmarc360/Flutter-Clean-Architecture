@@ -1,7 +1,8 @@
+import 'package:flutter_provider/core/error/result.dart';
 import 'package:flutter_provider/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../entities/user.dart';
+import '../entities/auth_token.dart';
 import '../repositories/auth_repository.dart';
 
 part 'login_usecase.g.dart';
@@ -16,7 +17,7 @@ class LoginUseCase {
 
   LoginUseCase(this.repository);
 
-  Future<User> call(String email, String password) {
+  Future<Result<AuthToken>> login(String email, String password) {
     return repository.login(email, password);
   }
 }
